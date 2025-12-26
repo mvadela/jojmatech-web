@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JojmaTech | DevOps & Soporte</title>
+  <meta name="description" content="JojmaTech: servicios DevOps, SRE y soporte IT. CI/CD, Kubernetes, observabilidad, cloud y automatización para acelerar tu time-to-market." />
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#111a2d;
+      --muted:#95a3b8;
+      --text:#eaf0ff;
+      --brand:#7c5cff;
+      --brand2:#22c55e;
+      --border: rgba(255,255,255,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --max: 1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(124,92,255,.28), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(180deg, #081024, #070b14);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,18,32,.55);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      height:70px;
+    }
+    .logo-img {
+      height: 50px;
+      width: auto;
+      display: block;
+    }
+    .mark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, var(--brand), #3b82f6);
+      box-shadow: 0 10px 25px rgba(124,92,255,.25);
+      position:relative;
+    }
+    .mark:after{
+      content:"";
+      position:absolute; inset:8px;
+      border-radius:10px;
+      background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .nav-links{
+      display:flex; gap:18px; align-items:center;
+      font-size:14px; color:var(--muted);
+    }
+    .nav-links a{padding:8px 10px; border-radius:10px}
+    .nav-links a:hover{background: rgba(255,255,255,.06); color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-weight:600;
+      box-shadow: none;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18)}
+    .btn-primary{
+      background: linear-gradient(135deg, var(--brand), #3b82f6);
+      border-color: rgba(124,92,255,.35);
+      box-shadow: 0 12px 30px rgba(124,92,255,.18);
+    }
+    .btn-primary:hover{filter: brightness(1.05)}
+    .btn-green{
+      background: linear-gradient(135deg, var(--brand2), #16a34a);
+      border-color: rgba(34,197,94,.35);
+      box-shadow: 0 12px 30px rgba(34,197,94,.12);
+    }
+    .hero{
+      padding:70px 0 40px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:24px;
+      align-items:stretch;
+    }
+    .badge{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size:13px;
+      width: fit-content;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--brand2);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.12);
+    }
+    h1{
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height:1.05;
+      margin:16px 0 12px;
+      letter-spacing:-.7px;
+    }
+    .lead{
+      color: var(--muted);
+      font-size: 16px;
+      margin:0 0 18px;
+      max-width: 56ch;
+    }
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+    .mini{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .mini span{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:12px;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--border);
+    }
+    .panel{
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panel-inner{padding:18px}
+    .code{
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: rgba(234,240,255,.9);
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding:14px;
+      overflow:auto;
+      margin:0;
+    }
+    .code .k{color:#93c5fd}
+    .code .g{color:#86efac}
+    .code .p{color:#fda4af}
+    .code .m{color:#c4b5fd}
+    .section{padding:44px 0}
+    .section h2{
+      margin:0 0 10px;
+      font-size: 26px;
+      letter-spacing:-.3px;
+    }
+    .section p.sub{margin:0 0 18px; color:var(--muted)}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .card{
+      padding:16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      box-shadow: none;
+    }
+    .card h3{margin:10px 0 6px; font-size:16px}
+    .card p{margin:0; color: var(--muted); font-size:14px}
+    .icon{
+      width:38px; height:38px; border-radius:14px;
+      display:grid; place-items:center;
+      background: rgba(124,92,255,.12);
+      border:1px solid rgba(124,92,255,.18);
+    }
+    .steps{display:grid; grid-template-columns: repeat(4, 1fr); gap:12px}
+    .step{
+      padding:14px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    .step .n{
+      width:26px; height:26px; border-radius:10px;
+      display:grid; place-items:center;
+      font-family: var(--mono);
+      font-size:12px;
+      background: rgba(34,197,94,.12);
+      border:1px solid rgba(34,197,94,.18);
+      color: rgba(234,240,255,.9);
+      margin-bottom:10px;
+    }
+    .pill-row{display:flex; flex-wrap:wrap; gap:10px}
+    .pill{
+      font-size:13px;
+      color: rgba(234,240,255,.9);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      padding:8px 10px;
+      border-radius: 999px;
+    }
+    .two{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      align-items:start;
+    }
+    .quote{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    .quote p{margin:0 0 10px; color: var(--muted)}
+    .quote .who{font-weight:700}
+    details{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+      padding:12px 14px;
+    }
+    summary{cursor:pointer; font-weight:700}
+    details p{color:var(--muted); margin:10px 0 0; font-size:14px}
+    form{
+      display:grid; gap:10px;
+    }
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline:none;
+      font-family: var(--sans);
+    }
+    input:focus, textarea:focus{border-color: rgba(124,92,255,.55)}
+    .hint{color: var(--muted); font-size: 12px; margin-top:6px}
+    .footer{
+      padding:26px 0 40px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,.10);
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+      font-size:13px;
+    }
+    .mobile-toggle{display:none}
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr}
+      .steps{grid-template-columns: 1fr 1fr}
+      .grid3{grid-template-columns: 1fr}
+      .two{grid-template-columns: 1fr}
+      .nav-links{display:none}
+      .mobile-toggle{display:inline-flex}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#top" aria-label="JojmaTech">
+        <span class="mark" aria-hidden="true"></span>
+        <span>JojmaTech</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegación">
+        <a href="#servicios">Servicios</a>
+        <a href="#metodo">Método</a>
+        <a href="#stack">Stack</a>
+        <a href="#casos">Casos</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div style="display:flex; gap:10px; align-items:center;">
+        <a class="btn mobile-toggle" href="#contacto">Contacto</a>
+        <a class="btn btn-primary" href="#contacto">Pedir diagnóstico</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge"><span class="dot"></span> DevOps + Soporte IT para equipos que quieren velocidad sin caos</div>
+          <h1>Infra confiable, despliegues rápidos y soporte que responde.</h1>
+          <p class="lead">
+            En <b>JojmaTech</b> ayudamos a empresas a reducir el <i>time-to-market</i> con CI/CD sólido,
+            Kubernetes/Cloud, observabilidad y automatización. Y cuando algo se rompe, estamos.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#contacto">Quiero una llamada</a>
+            <a class="btn" href="#servicios">Ver servicios</a>
+            <a class="btn btn-green" href="#contacto">Cotizar soporte</a>
+          </div>
+
+          <div class="mini" aria-label="Beneficios rápidos">
+            <span>✅ SLAs y guardias opcionales</span>
+            <span>✅ Auditoría + plan 30/60/90</span>
+            <span>✅ Documentación y handover</span>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="Ejemplo de entrega">
+          <div class="panel-inner">
+            <p style="margin:0 0 10px; color:var(--muted); font-size:13px">
+              Ejemplo de entregable en 10 días
+            </p>
+            <pre class="code" role="img" aria-label="Plan de trabajo DevOps">
+<span class="k">deliverable</span>: <span class="g">DevOps QuickWin Pack</span>
+<span class="k">includes</span>:
+  - <span class="m">CI/CD</span>: pipelines + templates + quality gates
+  - <span class="m">Infra</span>: IaC (Terraform) + hardening básico
+  - <span class="m">Observability</span>: logs/metrics/traces + alertas
+  - <span class="m">Runbooks</span>: incident response + on-call checklist
+<span class="k">outcome</span>:
+  - <span class="p">deploy</span> en minutos, rollback seguro, menos incidentes
+            </pre>
+            <p class="hint">*Se adapta a AWS / Azure / On-Prem / OpenShift.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="servicios" class="section">
+      <div class="container">
+        <h2>Servicios</h2>
+        <p class="sub">Elegí por resultado: estabilidad, velocidad, seguridad y operación.</p>
+
+        <div class="grid3">
+          <div class="card">
+            <div class="icon">⚙️</div>
+            <h3>DevOps & CI/CD</h3>
+            <p>Pipelines reproducibles, versionado, quality gates, promoción por ambientes, releases y rollback.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">☁️</div>
+            <h3>Cloud & Kubernetes</h3>
+            <p>Arquitectura, migraciones, clusters, redes, seguridad, costos y operación (AWS/Azure/OpenShift).</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">📈</div>
+            <h3>Observabilidad (SRE)</h3>
+            <p>Logs, métricas, trazas, alertas accionables, SLO/SLI, reducción de MTTR y postmortems.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Seguridad en pipelines</h3>
+            <p>Controles de acceso, firmas, escaneo, SBOM, secretos, hardening y baseline de compliance.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🧰</div>
+            <h3>Soporte IT & Plataformas</h3>
+            <p>Soporte a usuarios y equipos, troubleshooting, administración, guardias, runbooks y mejoras.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon">🧠</div>
+            <h3>Mentoría & Equipo</h3>
+            <p>Coaching técnico, estándares, documentación, onboarding y cultura para que el cambio quede.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METODO -->
+    <section id="metodo" class="section">
+      <div class="container">
+        <h2>Método de trabajo</h2>
+        <p class="sub">Simple, medible y sin humo: diagnóstico → quick wins → consolidación.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="n">01</div>
+            <b>Diagnóstico</b>
+            <div style="color:var(--muted); font-size:14px; margin-top:6px">Revisión de stack, pain points, riesgos y prioridades.</div>
+          </div>
+          <div class="step">
+            <div class="n">02</div>
+            <b>Quick wins</b>
+            <div style="color:var(--muted); font-size:14px; margin-top:6px">Arreglamos lo que frena: pipelines, permisos, alertas, deuda.</div>
+          </div>
+          <div class="step">
+            <div class="n">03</div>
+            <b>Industrialización</b>
+            <div style="color:var(--muted); font-size:14px; margin-top:6px">Templates, IaC, estándares, observabilidad y runbooks.</div>
+          </div>
+          <div class="step">
+            <div class="n">04</div>
+            <b>Operación</b>
+            <div style="color:var(--muted); font-size:14px; margin-top:6px">Soporte, guardias, postmortems y mejora continua.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="stack" class="section">
+      <div class="container">
+        <h2>Stack que solemos implementar</h2>
+        <p class="sub">Nos adaptamos a tu realidad, pero traemos buenas prácticas probadas.</p>
+
+        <div class="pill-row" aria-label="Tecnologías">
+          <span class="pill">GitHub Actions / GitLab CI</span>
+          <span class="pill">Terraform / Ansible</span>
+          <span class="pill">Docker / Buildpacks</span>
+          <span class="pill">Kubernetes / OpenShift</span>
+          <span class="pill">Argo CD / Helm</span>
+          <span class="pill">Prometheus / Grafana</span>
+          <span class="pill">ELK / OpenSearch</span>
+          <span class="pill">Snyk / Trivy / SonarQube</span>
+          <span class="pill">AWS / Azure</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASOS + CONTACTO -->
+    <section id="casos" class="section">
+      <div class="container">
+        <div class="two">
+          <div>
+            <h2>Resultados típicos</h2>
+            <p class="sub">Algunos outcomes que apuntamos a lograr (sin prometer magia).</p>
+
+            <div class="grid3" style="grid-template-columns: 1fr; gap:12px">
+              <div class="card">
+                <h3>Menos incidentes y menor MTTR</h3>
+                <p>Alertas accionables, runbooks, observabilidad y postmortems sin culpas.</p>
+              </div>
+              <div class="card">
+                <h3>Deploys más rápidos y seguros</h3>
+                <p>Pipelines repetibles, revisiones, gates y rollback automático.</p>
+              </div>
+              <div class="card">
+                <h3>Costos bajo control</h3>
+                <p>Rightsizing, storage lifecycle, redes y políticas por entornos.</p>
+              </div>
+            </div>
+
+            <div style="margin-top:14px" class="quote">
+              <p>“Pasamos de deploys manuales y miedo a releases semanales con rollback y trazabilidad.”</p>
+              <div class="who">— Ejemplo de cliente (placeholder)</div>
+            </div>
+          </div>
+
+          <div class="panel" id="contacto">
+            <div class="panel-inner">
+              <h2 style="margin-top:0">Hablemos</h2>
+              <p class="sub">Contame qué estás necesitando y te respondo con un plan simple.</p>
+
+              <form id="leadForm">
+                <input name="name" placeholder="Tu nombre" required />
+                <input name="company" placeholder="Empresa (opcional)" />
+                <input name="email" placeholder="Email" type="email" required />
+                <textarea name="message" placeholder="¿Qué querés resolver? (ej: CI/CD, Kubernetes, soporte, incidentes...)" rows="5" required></textarea>
+                <button class="btn btn-primary" type="submit">Enviar</button>
+                <div id="formMsg" class="hint" role="status" aria-live="polite"></div>
+              </form>
+
+              <div class="hint" style="margin-top:10px">
+                Tip: si querés, agregá tu preferencia de horario y zona (AR/ES).
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <h2>Preguntas frecuentes</h2>
+        <p class="sub">Lo que normalmente preguntan antes de arrancar.</p>
+
+        <div style="display:grid; gap:10px">
+          <details>
+            <summary>¿Trabajan por hora o por paquete?</summary>
+            <p>Podemos hacerlo por paquete (diagnóstico / quick wins / operación mensual) o por bolsa de horas. Lo más efectivo suele ser paquete + mantenimiento.</p>
+          </details>
+          <details>
+            <summary>¿Ofrecen guardias y SLAs?</summary>
+            <p>Sí, se define alcance, ventanas horarias, severidades y tiempos de respuesta. También armamos runbooks para que la guardia no sea “a ciegas”.</p>
+          </details>
+          <details>
+            <summary>¿Se adaptan a nuestro stack actual?</summary>
+            <p>Sí. Primero entendemos tu realidad y después proponemos mejoras incrementales. Evitamos migraciones innecesarias.</p>
+          </details>
+          <details>
+            <summary>¿Qué necesitan para empezar?</summary>
+            <p>Un brief del problema, accesos mínimos (según alcance), y un punto de contacto. El resto lo estructuramos en el diagnóstico.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL -->
+    <section class="section">
+      <div class="container">
+        <div class="panel">
+          <div class="panel-inner" style="display:flex; justify-content:space-between; gap:14px; align-items:center; flex-wrap:wrap">
+            <div>
+              <div class="badge"><span class="dot"></span> Arrancá con un diagnóstico</div>
+              <h2 style="margin:10px 0 6px">En 30 minutos te digo qué haría primero.</h2>
+              <div style="color:var(--muted)">Sin compromiso. Si no encaja, te lo digo de frente.</div>
+            </div>
+            <a class="btn btn-green" href="#contacto">Agendar contacto</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container foot">
+      <div>© <span id="year"></span> JojmaTech — DevOps & Soporte</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap">
+        <a href="#servicios">Servicios</a>
+        <span style="opacity:.4">•</span>
+        <a href="#contacto">Contacto</a>
+        <span style="opacity:.4">•</span>
+        <a href="#top">Volver arriba</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Form demo (sin backend): valida y arma mailto. Si querés, lo conectamos a un endpoint.
+    const form = document.getElementById("leadForm");
+    const msg = document.getElementById("formMsg");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      msg.textContent = "";
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      if (!data.email || !data.message || !data.name) {
+        msg.textContent = "Por favor completá nombre, email y mensaje.";
+        return;
+      }
+
+      const subject = encodeURIComponent(`[JojmaTech] Consulta de ${data.name}`);
+      const body = encodeURIComponent(
+        `Nombre: ${data.name}\nEmpresa: ${data.company || "-"}\nEmail: ${data.email}\n\nMensaje:\n${data.message}\n`
+      );
+
+      // Reemplazá por tu mail real:
+      const to = "info@jojmatech.com";
+
+      // Abre el cliente de correo del usuario
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+      msg.textContent = "Listo: se abrió tu cliente de correo. Si no se abre, copiá el mensaje y escribinos.";
+      form.reset();
+    });
+  </script>
+</body>
+</html>

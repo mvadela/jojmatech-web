@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.jojmatech.com.ar/sitemap.xml
